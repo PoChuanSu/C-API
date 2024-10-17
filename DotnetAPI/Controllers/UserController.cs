@@ -22,16 +22,36 @@ public class UserController : ControllerBase
     }
 
 
-    [HttpGet("GetUsers/{testValue}")]
-    public string[] GetUsers(string testValue)
+    [HttpGet("GetUsers")]
+    public IEnumerable<User> GetUsers()
     {
-        string[] responseArray = new string[] {
-            "test1",
-            "test2",
-            testValue
-        };
+        string sql = @"
+            SELECT [UserId],
+                [FirstName],
+                [LastName],
+                [Email],
+                [Gender],
+                [Active]
+            FROM TutorialAppSchema.Users";
+        IEnumerable<User> users = _dapper.LoadData<User>(sql);
+        return users;
+    }
 
-        return responseArray;
+
+    [HttpGet("GetSingleUsers/{userId}")]
+    public User GetSingleUsers(int userId)
+    {
+        string sql = @"
+            SELECT [UserId],
+                [FirstName],
+                [LastName],
+                [Email],
+                [Gender],
+                [Active]
+            FROM TutorialAppSchema.Users WHERE UserId = " + userId.ToString();
+
+        User user = _dapper.LoadDataSingle<User>(sql);
+        return user;
     }
 }
 
