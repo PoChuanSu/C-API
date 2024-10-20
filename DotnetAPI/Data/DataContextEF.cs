@@ -19,12 +19,13 @@ namespace DotnetAPI.Data
 
         public virtual DbSet<UserJobInfo> UserJobInfo { get; set; }
 
-        public override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UserSqlServer(_)
+                    .UseSqlServer(_config.GetConnectionString("DefaultConnection"),
+                        optionsBuilder => optionsBuilder.EnableRetryOnFailure());
             }
         }
 
