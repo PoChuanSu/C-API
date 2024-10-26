@@ -1,3 +1,5 @@
+using DotnetAPI.Models;
+
 namespace DotnetAPI.Data
 {
     public class UserRepository : IUserRepository
@@ -31,5 +33,25 @@ namespace DotnetAPI.Data
             }
         }
 
+        public IEnumerable<User> GetUsers()
+        {
+            IEnumerable<User> users = _entityFramework.Users.ToList<User>();
+            return users;
+        }
+
+        public User GetSingleUsers(int userId)
+        {
+
+            User? user = _entityFramework.Users
+                .Where(u => u.UserId == userId)
+                .FirstOrDefault<User>();
+
+            if (user != null)
+            {
+                return user;
+            }
+
+            throw new Exception("Failed to Get User");
+        }
     }
 }
