@@ -53,9 +53,10 @@ namespace DotnetAPI.Data
             commandWithParams.Connection = dbConnection;
 
             int rowsAffected = commandWithParams.ExecuteNonQuery();
+
             dbConnection.Close();
 
-            return dbConnection.Execute(sql) > 0;
+            return rowsAffected > 0;
         }
     }
 }

@@ -41,7 +41,7 @@ public class UserEFController : ControllerBase
     [HttpPut("EditUser")]
     public IActionResult EditUser(User user)
     {
-        User? userDb = _userRepository.GetSingleUsers(user.userId);
+        User? userDb = _userRepository.GetSingleUsers(user.UserId);
 
         if (userDb != null)
         {
@@ -66,7 +66,8 @@ public class UserEFController : ControllerBase
     {
         User userDb = _mapper.Map<User>(user);
 
-        UserRepository.AddEntity<User>(userDb);
+        _userRepository.AddEntity<User>(userDb);
+
         if (_userRepository.SaveChanges())
         {
             return Ok();
